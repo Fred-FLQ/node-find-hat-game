@@ -26,7 +26,7 @@ let lineIndex;
 let pathIndex;
 
 // Finding pathCharacter in the 2D array
-const findCurrentPosition = () => {
+const initiatePosition = () => {
     for (let i = 0; i < myField.fieldMap.length; i++) {
         if (myField.fieldMap[i].indexOf(pathCharacter) !== -1) {
             lineIndex = i;
@@ -36,42 +36,39 @@ const findCurrentPosition = () => {
     }
 }
 
-findCurrentPosition();
+// Moving Character and updating position
+const moveCharacter = (moveLine, moveIndex) => {
+    myField.fieldMap[lineIndex][pathIndex] = fieldCharacter;
+    lineIndex += moveLine;
+    pathIndex += moveIndex;
+    myField.fieldMap[lineIndex][pathIndex] = pathCharacter;
+}
+
+initiatePosition();
 myField.print();
 
 while (true) {
     let userInput = prompt('Which way do you wanna go?').toLowerCase();
-    //console.log([lineIndex, pathIndex]); // For debugging
+    // console.log([lineIndex, pathIndex]); // For debugging
 
-    const notHole = myField.fieldMap[lineIndex][pathIndex] !== hole;
-    const notHat = myField.fieldMap[lineIndex][pathIndex] !== hat;
-
-    const moveCharacter = (moveLine, moveIndex) => {
-        myField.fieldMap[lineIndex + moveLine][pathIndex + moveIndex] = pathCharacter;
-    }
+    let notHole = true;
+    let notHat = true;
 
     switch (userInput) {
         case 'l':
-            myField.fieldMap[lineIndex][pathIndex] = fieldCharacter;
             moveCharacter(0, -1);
-            findCurrentPosition();
-            console.log('You went LEFT.');
             myField.print();
             break;
         case 'r':
-            myField.fieldMap[lineIndex][pathIndex] = fieldCharacter;
             moveCharacter(0, 1);
-            findCurrentPosition();
-            //console.log([lineIndex, pathIndex]); // For debugging
-            console.log('You went RIGHT.');
             myField.print();
             break;
         case 'u':
-            console.log('You went UP.');
+            moveCharacter(-1, 0);
             myField.print();
             break;
         case 'd':
-            console.log('You went DOWN.');
+            moveCharacter(1, 0);
             myField.print();
             break;
     };
