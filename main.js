@@ -43,9 +43,8 @@ const moveCharacter = (moveLine, moveIndex) => {
     let notHat = true;
 
     // Check field boundaries
-    if (lineIndex + moveLine < 0 || lineIndex + moveLine >= myField.fieldMap.length || pathIndex + moveIndex < 0 || pathIndex + moveIndex >= myField.fieldMap[lineIndex].length ) {
+    if (lineIndex + moveLine < 0 || lineIndex + moveLine >= myField.fieldMap.length || pathIndex + moveIndex < 0 || pathIndex + moveIndex >= myField.fieldMap[lineIndex].length) {
         inField = false;
-        console.log({inField});
         return { inField, notHole, notHat };
     }
 
@@ -64,8 +63,7 @@ const moveCharacter = (moveLine, moveIndex) => {
     // Display character in new position
     myField.fieldMap[lineIndex][pathIndex] = pathCharacter;
 
-    // Return an object with notHole, notHat key+value
-    console.log({inField, notHole, notHat});
+    // Return an object for use in while loop
     return { inField, notHole, notHat };
 }
 
@@ -79,27 +77,28 @@ while (true) {
     switch (userInput) {
         case 'l':
             moveResult = moveCharacter(0, -1);
-            myField.print();
             break;
         case 'r':
             moveResult = moveCharacter(0, 1);
-            myField.print();
             break;
         case 'u':
             moveResult = moveCharacter(-1, 0);
-            myField.print();
             break;
         case 'd':
             moveResult = moveCharacter(1, 0);
-            myField.print();
             break;
+        default:
+            console.log('Incorrect input: please use "l", "r", "u" or "d".');
+            continue;
     };
 
-    let {inField, notHole, notHat} = moveResult;    
+    myField.print();
+
+    let { inField, notHole, notHat } = moveResult;
 
     if (!inField) {
         console.log('You can\'t go that way!');
-    }else if (!notHat) {
+    } else if (!notHat) {
         console.log('You win!');
         break;
     } else if (!notHole) {
