@@ -38,8 +38,16 @@ const initiatePosition = () => {
 
 // Moving Character and updating position
 const moveCharacter = (moveLine, moveIndex) => {
+    let inField = true;
     let notHole = true;
     let notHat = true;
+
+    // Check field boundaries
+    if (lineIndex + moveLine < 0 || lineIndex + moveLine >= myField.fieldMap.length || pathIndex + moveIndex < 0 || pathIndex + moveIndex >= myField.fieldMap[lineIndex].length ) {
+        inField = false;
+        console.log({inField});
+        return { inField, notHole, notHat };
+    }
 
     // Move the character
     myField.fieldMap[lineIndex][pathIndex] = fieldCharacter;
@@ -57,8 +65,8 @@ const moveCharacter = (moveLine, moveIndex) => {
     myField.fieldMap[lineIndex][pathIndex] = pathCharacter;
 
     // Return an object with notHole, notHat key+value
-    console.log({notHole, notHat});
-    return { notHole, notHat };
+    console.log({inField, notHole, notHat});
+    return { inField, notHole, notHat };
 }
 
 initiatePosition();
@@ -87,13 +95,15 @@ while (true) {
             break;
     };
 
-    let {notHole, notHat} = moveResult;    
+    let {inField, notHole, notHat} = moveResult;    
 
-    if (!notHat) {
-        console.log("You win!");
+    if (!inField) {
+        console.log('You can\'t go that way!');
+    }else if (!notHat) {
+        console.log('You win!');
         break;
     } else if (!notHole) {
-        console.log("You felt in a hole! Game over");
+        console.log('You felt in a hole! Game over');
         break;
     }
 }
