@@ -38,10 +38,27 @@ const initiatePosition = () => {
 
 // Moving Character and updating position
 const moveCharacter = (moveLine, moveIndex) => {
+    let notHole = true;
+    let notHat = true;
+
+    // Move the character
     myField.fieldMap[lineIndex][pathIndex] = fieldCharacter;
     lineIndex += moveLine;
     pathIndex += moveIndex;
+
+    // Check if hole or hat
+    if (myField.fieldMap[lineIndex][pathIndex] === hole) {
+        notHole = false;
+    } else if (myField.fieldMap[lineIndex][pathIndex] === hat) {
+        notHat = false;
+    }
+
+    // Display character in new position
     myField.fieldMap[lineIndex][pathIndex] = pathCharacter;
+
+    // Return an object with notHole, notHat key+value
+    console.log({notHole, notHat});
+    return { notHole, notHat };
 }
 
 initiatePosition();
@@ -81,10 +98,3 @@ while (true) {
         break;
     }
 }
-
-// if go right:
-//CHECK: if (myField.fieldMap[lineIndex][pathIndex + 1] < myField.fieldMap[lineIndex].length) {
-//
-//}
-
-// function with 'move' as first parameter called inside the switch statement
