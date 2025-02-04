@@ -66,29 +66,28 @@ myField.print();
 
 while (true) {
     let userInput = prompt('Which way do you wanna go?').toLowerCase();
-    // console.log([lineIndex, pathIndex]); // For debugging
-
-    let notHole = true;
-    let notHat = true;
+    let moveResult;
 
     switch (userInput) {
         case 'l':
-            moveCharacter(0, -1);
+            moveResult = moveCharacter(0, -1);
             myField.print();
             break;
         case 'r':
-            moveCharacter(0, 1);
+            moveResult = moveCharacter(0, 1);
             myField.print();
             break;
         case 'u':
-            moveCharacter(-1, 0);
+            moveResult = moveCharacter(-1, 0);
             myField.print();
             break;
         case 'd':
-            moveCharacter(1, 0);
+            moveResult = moveCharacter(1, 0);
             myField.print();
             break;
     };
+
+    let {notHole, notHat} = moveResult;    
 
     if (!notHat) {
         console.log("You win!");
