@@ -137,6 +137,12 @@ class Field {
                 console.log('You can\'t go that way!');
             } else if (!notHat) {
                 console.log('You win!');
+                let playGain = prompt('Wanna play again? y/n => ').toLowerCase();
+                if (playGain === 'y') {
+                    const newField = Field.generateField(5,6);
+                    const newGame = new Field(newField);
+                    newGame.startGame();
+                }
                 break;
             } else if (!notHole) {
                 console.log('You felt in a hole! Game over');
