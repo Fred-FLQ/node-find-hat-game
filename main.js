@@ -99,12 +99,21 @@ class Field {
 
     // Initiate game
     startGame() {
+        console.log('Welcome to the Find My Hat game!');
+        console.log(`Navigate using 'l' (left), 'r' (right), 'u' (up), 'd' (down). Reach the hat '^' to win. Avoid the holes 'O'.`);
         this.print();
 
         while (true) {
             let userInput = prompt('Which way do you wanna go?').toLowerCase();
-            let moveResult;
 
+            // Validate input
+            while (!['l', 'r', 'u', 'd'].includes(userInput)) {
+                console.log('Incorrect input: please use "l", "r", "u" or "d".');
+                let userInput = prompt('Which way do you wanna go?').toLowerCase();
+            }
+
+            // Handle input
+            let moveResult;
             switch (userInput) {
                 case 'l':
                     moveResult = this.moveCharacter(0, -1);
@@ -118,14 +127,12 @@ class Field {
                 case 'd':
                     moveResult = this.moveCharacter(1, 0);
                     break;
-                default:
-                    console.log('Incorrect input: please use "l", "r", "u" or "d".');
             };
 
             this.print();
 
+            // Handle move result
             let { inField, notHole, notHat } = moveResult;
-
             if (!inField) {
                 console.log('You can\'t go that way!');
             } else if (!notHat) {
