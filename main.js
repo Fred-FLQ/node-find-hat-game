@@ -32,12 +32,12 @@ class Field {
     }
 
     // Generate a random field
-    static generateField(fieldHeight, fieldWidth) {
+    static generateField(fieldHeight, fieldWidth, difficulty = 0.3) {
         let newField = [];
         for (let i = 0; i < fieldHeight; i++) {
             newField.push([]);
             for (let j = 0; j < fieldWidth; j++) {
-                newField[i].push(Math.random() >= 0.3 ? fieldCharacter : hole);
+                newField[i].push(Math.random() >= difficulty ? fieldCharacter : hole);
             }
         }
 
@@ -137,19 +137,25 @@ class Field {
                 console.log('You can\'t go that way!');
             } else if (!notHat) {
                 console.log('You win!');
-                let playGain = prompt('Wanna play again? y/n => ').toLowerCase();
-                if (playGain === 'y') {
-                    const newField = Field.generateField(5,6);
-                    const newGame = new Field(newField);
-                    newGame.startGame();
-                }
+                this.playAgain();
                 break;
             } else if (!notHole) {
                 console.log('You felt in a hole! Game over');
+                this.playAgain();
                 break;
             }
         }
     }
+
+    playAgain() {
+        let playGain = prompt('Wanna play again? y/n => ').toLowerCase();
+        if (playGain === 'y') {
+            const newField = Field.generateField(5, 6);
+            const newGame = new Field(newField);
+            newGame.startGame();
+        }
+    }
+
 };
 
 const field1 = Field.generateField(5, 6);
