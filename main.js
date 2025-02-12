@@ -31,6 +31,41 @@ class Field {
         }
     }
 
+    // Generate a random field
+    static generateField(fieldHeight, fieldWidth) {
+        let newField = [];
+        for (let i = 0; i < fieldHeight; i++) {
+            newField.push([]);
+            for (let j = 0; j < fieldWidth; j++) {
+                newField[i].push(Math.random() >= 0.3 ? fieldCharacter : hole);
+            }
+        }
+
+        // Place hat on field
+        let hatPlaced = false;
+        while (!hatPlaced) {
+            let hatLineIndex = Math.floor(Math.random() * fieldHeight);
+            let hatPathIndex = Math.floor(Math.random() * fieldWidth);
+            if (newField[hatLineIndex][hatPathIndex] !== hole) {
+                newField[hatLineIndex][hatPathIndex] = hat;
+                hatPlaced = true;
+            }
+        }
+
+        // Place pathCharacter on field
+        let pathCharacterPlaced = false;
+        while (!pathCharacterPlaced) {
+            let pathCharLineIndex = Math.floor(Math.random() * fieldHeight);
+            let pathCharPathIndex = Math.floor(Math.random() * fieldWidth);
+            if (newField[pathCharLineIndex][pathCharPathIndex] !== hole && newField[pathCharLineIndex][pathCharPathIndex] !== hat) {
+                newField[pathCharLineIndex][pathCharPathIndex] = pathCharacter;
+                pathCharacterPlaced = true;
+            }
+        }
+
+        return newField;
+    }
+
     // Move pathCharacter and update position
     moveCharacter(moveLine, moveIndex) {
         let inField = true;
@@ -85,8 +120,9 @@ class Field {
                     break;
                 default:
                     console.log('Incorrect input: please use "l", "r", "u" or "d".');
-                    continue;
             };
+
+            this.print();
 
             let { inField, notHole, notHat } = moveResult;
 
@@ -103,10 +139,7 @@ class Field {
     }
 };
 
-const myField = new Field([
-    ['*', '░', 'O'],
-    ['░', 'O', '░'],
-    ['░', '^', '░'],
-]);
+const field1 = Field.generateField(5, 6);
+const myField = new Field(field1);
 
 myField.startGame();
